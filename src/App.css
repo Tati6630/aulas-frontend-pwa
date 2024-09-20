@@ -1,0 +1,19 @@
+header {
+  background-color: blueviolet;
+  grid-area: cabecalho;
+}
+
+aside {
+  background-color: mediumpurple;
+  grid-area: lado-esquerdo;
+}
+
+main {
+  background-color: rgb(172, 172, 243);
+  grid-area: principal;
+}
+
+footer {
+  background-color: lightgray;
+  grid-area: rodape;
+}
