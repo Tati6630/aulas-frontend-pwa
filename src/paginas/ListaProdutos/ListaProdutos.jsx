@@ -20,11 +20,34 @@ const ListaProdutos = () => {
         },
     ];
 
-    return <Principal titulo="Lista de Produtos">
-
+    return <Principal titulo="Lista de Produtos" voltarPara="/">
         {produtos.map((itemProduto, index) => {
-
-            return <div key={index}>{itemProduto.nome}</div>;
+            return <div key={index} className="lista-produtos_item">
+                <span>
+                    <strong>Nome: </strong>
+                    {itemProduto.nome}
+                </span>
+                <span><strong>Preço: </strong>
+                    {itemProduto.preco}
+                </span>
+                <span><strong>Cores: </strong>
+                <div className='lista-produtos_cores'>
+                    {itemProduto.cores.map((cor, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    style={{
+                                        backgroundColor: cor,
+                                        width: 24,
+                                        height: 24,
+                                        borderRadius: '50%',
+                                    }}
+                                />
+                            );
+                        })}
+                    </div>
+                </span>
+            </div>
         })}
 
 

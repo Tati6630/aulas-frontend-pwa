@@ -1,10 +1,15 @@
+import { Link } from 'react-router-dom';
 import BotaoCustomizado from '../BotaoCustomizado/BotaoCustomizado';
 import './Principal.css';
 
-function Principal({titulo, children}) {
+function Principal({voltarPara, titulo, children}) {
     return (
         <main className="principal_root">
-            <h1>{titulo}</h1>
+            <div className="principal_titulo">
+                {voltarPara && <Link to="/">Voltar</Link>}
+
+                <h1>{titulo}</h1>
+            </div>
           {children} </main>
     );
 }
