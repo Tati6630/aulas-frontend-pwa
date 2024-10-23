@@ -2,7 +2,7 @@ import { useState } from "react";
 import BotaoCustomizado from "../../comum/componentes/BotaoCustomizado/BotaoCustomizado";
 import Principal from "../../comum/componentes/Principal/Principal";
 import { BsTrash } from "react-icons/bs";
-
+import "./PgListaTarefas.css";
 const PgListaTarefas = () => {
   const [descricao, setDescricao] = useState("");
   const [tarefas, setTarefas] = useState([]);
@@ -10,7 +10,7 @@ const PgListaTarefas = () => {
   const adicionarNaLista = () => {
     if (descricao && descricao.trim()) {
       //if(descricao) => substitui todas as condições (null, undefined, '')
-      tarefas.push(descricao);
+      tarefas.push({ descricao, feita: false });
       setTarefas([...tarefas]);
       setDescricao("");
     } else {
@@ -26,7 +26,7 @@ const PgListaTarefas = () => {
   };
 
   return (
-    <Principal titulo="Lista de Tarefas" voltarPara="/">
+    <Principal titulo={`Lista de Tarefas (${tarefas.length})`} voltarPara="/">
       <div>
         <input
           id="campoDescricao"
@@ -52,6 +52,12 @@ const PgListaTarefas = () => {
           );
         })}
       </ul>
+
+      {tarefas.length === 0 && (
+        <span className="pagina-lista-tarefas_mensagem-vazia">
+          Não há tarefas
+        </span>
+      )}
     </Principal>
   );
 };
