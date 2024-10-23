@@ -1,13 +1,13 @@
 import Avatar from "../Avatar/Avatar";
-import './Cabecalho.css';
+import "./Cabecalho.css";
 
 function Cabecalho() {
-    return (
-         <header className = 'cabecalho_root'>
-            <img src="/public/vite.svg" height={40} />
-        <Avatar nome="Yohan Beto" />
+  return (
+    <header className="cabecalho_root">
+      <img src="/vite.svg" height={40} />
+      <Avatar nome="Yohan Beto" />
     </header>
-    )
+  );
 }
 
 export default Cabecalho;
