@@ -7,3 +7,7 @@
 
 }
 
+.principal_titulo{
+    display: flex;
+    align-items: center;
+}
