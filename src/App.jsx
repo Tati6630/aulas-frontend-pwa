@@ -42,7 +42,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "cadastro-cliente",
+    path: "cadastro-cliente/:id?",
     element: <PaginaCadastroCliente />,
   },
 ]);

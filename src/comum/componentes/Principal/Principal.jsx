@@ -8,7 +8,7 @@ function Principal({ voltarPara, titulo, children }) {
       <div className="principal_titulo">
         {voltarPara && (
           <Link to={voltarPara}>
-            <FaChevronLeft size={24} color="lightblue" />{" "}
+            <FaChevronLeft size={24} color="lightblue" />{" "}     {/* esta linha de comando é para chamar um ICON, nesse caso, uma seta*/}
           </Link>
         )}
 

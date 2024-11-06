@@ -1,38 +1,67 @@
+import { formatarComMascara, MASCARA_CELULAR, MASCARA_CPF } from '../../comum/utils/mascaras';
 import './PaginaCadastroCliente.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BotaoCustomizado from "../../comum/componentes/BotaoCustomizado/BotaoCustomizado";
 import Principal from "../../comum/componentes/Principal/Principal"
 import ServicoCliente from '../../comum/servicos/ServicoCliente';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
+const instanciaServicoCliente = new ServicoCliente();
 
 const PaginaCadastroCliente = () => {
     const navigate = useNavigate();
+    const params = useParams();
+
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [celular, setCelular] = useState('');
     const [dataNascimento, setDataNascimento] = useState('');
     const [cpf, setCPF] = useState('');
 
-    const servicoCliente = new ServicoCliente();
+    useEffect(() => {
+        if (params.id) {
+            const clienteEncontrado = instanciaServicoCliente.buscarPorId(params.id);
+            if (clienteEncontrado) {
+                setNome(clienteEncontrado.nome);
+                setEmail(clienteEncontrado.email);
+                setCelular(clienteEncontrado.celular);
+                setDataNascimento(clienteEncontrado.dataNascimento);
+                setCPF(clienteEncontrado.cpf);
+            }
+        }
+
+    }, [params.id])
+
 
     const salvar = () => {
-        const novoCliente = {
+        const cliente = {
+            id: params.id ? +params.id : Date.now(),
             nome,
             email,
             celular,
             dataNascimento,
             cpf
         };
-        servicoCliente.salvar(novoCliente);
+        if (params.id) {
+            instanciaServicoCliente.editarCliente(cliente);
+        } else {
+            instanciaServicoCliente.cadastrarCliente(cliente);
+        }
         navigate('/lista-clientes');
-
     };
 
     return (
         <Principal
-            titulo="Novo Cliente"
+        titulo={params.id ? 'Editar Cliente' : 'Novo Cliente'}
             voltarPara="/lista-clientes"
         >
+            {params.id && (
+                <div className='campo'>
+                    <label>Id</label>
+                    <input type="text" value={params.id} disable />
+                </div>
+            )}
+
             <div className="campo">
                 <label>Nome</label>
                 <input
@@ -56,7 +85,12 @@ const PaginaCadastroCliente = () => {
                 <input type="tel"
                     placeholder="Digite seu numero de telefone"
                     value={celular}
-                    onChange={(e) => setCelular(e.target.value)}
+                    onChange={(e) => setCelular(formatarComMascara(
+                        e.target.value,
+                        MASCARA_CELULAR
+                        )
+                    )
+                }
                 />
             </div>
 
@@ -65,7 +99,8 @@ const PaginaCadastroCliente = () => {
                 <input type="date"
                     placeholder="Digite sua data de nascimento"
                     value={dataNascimento}
-                    onChange={(e) => setDataNascimento(e.target.value)} />
+                    onChange={(e) => setDataNascimento(e.target.value)} 
+                />
             </div>
 
             <div className="campo">
@@ -73,12 +108,22 @@ const PaginaCadastroCliente = () => {
                 <input type="tel"
                     placeholder="Digite seu CPF"
                     value={cpf}
-                    onChange={(e) => setCPF(e.target.value)}
+                    onChange={(e) =>
+                        setCPF(
+                            formatarComMascara(
+                                e.target.value,
+                                MASCARA_CPF
+                            )
+                        )
+                    }
                 />
             </div>
 
-            <BotaoCustomizado cor="secundaria" aoClicar={salvar}>Salvar</BotaoCustomizado>
+            <BotaoCustomizado cor="secundaria" aoClicar={salvar}>
+             Salvar
+            </BotaoCustomizado>
 
-        </Principal>)
+        </Principal>
+    )
 };
 export default PaginaCadastroCliente;
