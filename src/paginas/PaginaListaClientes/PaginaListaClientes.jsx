@@ -4,6 +4,7 @@ import Principal from '../../comum/componentes/Principal/Principal';
 import ServicoCliente from '../../comum/servicos/ServicoCliente';
 import { useEffect, useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
+import { FaTrash } from 'react-icons/fa6';
 
 const instanciaServicoCliente = new ServicoCliente();
 
@@ -16,9 +17,18 @@ const PaginaListaClientes = () => {
         setListaClientes(clientesDoLocalStorage);
     }, []);
 
-    const navegarparaEdicao = (idCliente) => {
+    const navegarParaEdicao = (idCliente) => {
         navigate(`/cadastro-cliente/${idCliente}`);
     };
+
+    const excluir = (idCliente) => {
+        if (confirm('Tem certeza?')) {
+            const listaAtualizada =
+                instanciaServicoCliente.excluirCliente(idCliente);
+            setListaClientes(listaAtualizada);
+        }
+    };
+
 
 
     return (
@@ -28,22 +38,33 @@ const PaginaListaClientes = () => {
             {listaClientes.map((cliente) => {
                 return (
                     <div
-                    key={cliente.id}
-                    className='pagina-lista-clientes__item-cliente'
+                        key={cliente.id}
+                        className='pagina-lista-clientes__item-cliente'
                     >
 
-                    {cliente.nome}
+                        {cliente.nome}
 
-                    <FaEdit 
-                    size={24} 
-                    onClick={() => navegarparaEdicao(cliente.id)} 
-                    />
+                        <div className="pagina-lista-clientes__item-cliente-acoes">
+                            <FaEdit
+                                size={24}
+                                onClick={() =>
+                                    navegarParaEdicao(cliente.id)
+                                }
+                            />
+
+                            <FaTrash
+                                size={24}
+                                color="red"
+                                onClick={() => excluir(cliente.id)}
+                            />
+                        </div>
                     </div>
                 );
-            })
-            }
+            })}
         </Principal>
     );
 };
 
 export default PaginaListaClientes;
+
+

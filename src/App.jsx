@@ -9,26 +9,50 @@ import PgListaTarefas from "./paginas/PgListaTarefas/PgListaTarefas";
 import PaginaDesafioComponentes from "./paginas/PaginaDesafioComponentes/PaginaDesafioComponentes";
 import PaginaCadastroCliente from "./paginas/PaginaCadastroCliente/PaginaCadastroCliente";
 import PaginaListaClientes from "./paginas/PaginaListaClientes/PaginaListaClientes";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import VerificarAutenticacao from './comum/componentes/VerificarAutenticacao/VerificarAutenticacao';
+import PaginaLogin from './paginas/PaginaLogin/PaginaLogin';
+import PaginaNovoUsuario from './paginas/PaginaNovoUsuario/PaginaNovoUsuario';
+
 
 const router = createBrowserRouter([
   {
-    path: "",
-    element: <PaginaInicial />,
+    path: "login",
+    element: <PaginaLogin />,
   },
 
   {
-    path: "lista-produtos",
-    element: <ListaProdutos />,
+    path: "novo-usuario",
+    element: <PaginaNovoUsuario />,
   },
 
+  {
+    path: '',
+    element: <VerificarAutenticacao />,
+    children: [
+      {
+        path: '',
+        element: <PaginaInicial />,
+      },
+      {
+        path: 'lista-tarefas',
+        element: <PgListaTarefas />,
+      },
+      {
+        path: 'lista-clientes',
+        element: <PaginaListaClientes />,
+      },
+      {
+        path: 'cadastro-cliente/:id?',
+        element: <PaginaCadastroCliente />,
+      },
+    ]
+  },
+  // o path do VerificarAutenticacao que tem o children termina aqui
   {
     path: "botao-contador",
     element: <BotaoContador />,
-  },
-
-  {
-    path: "lista-tarefas",
-    element: <PgListaTarefas />,
   },
 
   {
@@ -37,13 +61,8 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "lista-clientes",
-    element: <PaginaListaClientes />,
-  },
-
-  {
-    path: "cadastro-cliente/:id?",
-    element: <PaginaCadastroCliente />,
+    path: "lista-produtos",
+    element: <ListaProdutos />,
   },
 ]);
 
@@ -53,6 +72,7 @@ function App() {
       <Cabecalho />
       <RouterProvider router={router} />
       <Rodape />
+      <ToastContainer />
     </>
   );
 }

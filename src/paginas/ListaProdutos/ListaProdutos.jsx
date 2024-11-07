@@ -54,4 +54,4 @@ const ListaProdutos = () => {
     </Principal>
 };
 
-export default ListaProdutos
+export default ListaProdutos;

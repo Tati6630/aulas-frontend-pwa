@@ -5,6 +5,9 @@ import BotaoCustomizado from "../../comum/componentes/BotaoCustomizado/BotaoCust
 import Principal from "../../comum/componentes/Principal/Principal"
 import ServicoCliente from '../../comum/servicos/ServicoCliente';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import './PaginaCadastroCliente.css';
+
 
 const instanciaServicoCliente = new ServicoCliente();
 
@@ -34,6 +37,11 @@ const PaginaCadastroCliente = () => {
 
 
     const salvar = () => {
+        if (!nome || !email) {
+        toast.error('Preencha todos os campos obrigatórios!');
+        return;
+        
+        }
         const cliente = {
             id: params.id ? +params.id : Date.now(),
             nome,
@@ -74,7 +82,8 @@ const PaginaCadastroCliente = () => {
 
             <div className="campo">
                 <label>Email</label>
-                <input type="email" placeholder="Digite seu email"
+                <input type="email" 
+                    placeholder="Digite seu email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
